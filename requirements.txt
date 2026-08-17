@@ -1,2 +1,3 @@
 tabulate
 django
+python-decouple

@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 from pathlib import Path
 
+from decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -19,13 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-# Clave solo para desarrollo. En un proyecto real NUNCA se sube a GitHub:
-# se lee desde una variable de entorno.
-SECRET_KEY = 'django-insecure-clave-de-ejemplo-solo-para-clases'
+# Las claves NO se escriben aqui: se leen del archivo .env, que no se sube a
+# GitHub. El .env.example si se sube, para que otros sepan que variables
+# necesitan. Esto lo hace python-decouple.
+SECRET_KEY = config('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 

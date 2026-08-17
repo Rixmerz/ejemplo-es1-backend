@@ -19,7 +19,14 @@ lo muestra en una página web.
 python -m venv .venv
 source .venv/bin/activate        # en Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+cp .env.example .env             # en Windows: copy .env.example .env
 ```
+
+**El paso del `.env` no es opcional.** Si lo saltas, Django corta con
+`UndefinedValueError: SECRET_KEY not found`. Las claves no se escriben dentro
+del código: se leen del `.env`, que está en `.gitignore` y no se sube a GitHub.
+El `.env.example` sí se sube, para que quien clone el repo sepa qué variables
+necesita.
 
 **Comprobar los 4 resultados:**
 
@@ -60,6 +67,8 @@ ejemplo-es1/
 ├── solucion.py                    <- junto a manage.py
 ├── datos.json                     <- lo crea solucion.py, aquí mismo
 ├── plan.md, ia.md, requirements.txt
+├── .env                           <- tus claves, NO se sube
+├── .env.example                   <- la plantilla, sí se sube
 ├── core/views.py
 ├── core/templates/resumen.html    <- Django solo lo busca aquí
 └── miproyecto/settings.py, urls.py
@@ -74,6 +83,19 @@ ejemplo-es1/
 | `solucion.py` + `requirements.txt` — `tabulate` | 1.1.3 | 6 |
 | `core/` + `miproyecto/` + `ia.md` | 1.1.4 | 12 |
 | `plan.md` | requisito, sin puntaje | — |
+
+## Sobre los paquetes externos
+
+`requirements.txt` trae tres:
+
+| Paquete | Para qué | ¿Se evalúa en 1.1.3? |
+| --- | --- | --- |
+| `tabulate` | Mostrar el resumen como tabla en consola | **Sí, este es el del criterio** |
+| `django` | La página web | No, es del criterio 1.1.4 |
+| `python-decouple` | Leer las claves desde `.env` | No, es buena práctica |
+
+`json` **no** cuenta como paquete externo: viene incluido con Python y no se
+instala con pip.
 
 ## Sin base de datos
 
