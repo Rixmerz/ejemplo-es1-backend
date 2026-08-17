@@ -1,16 +1,33 @@
 <!doctype html>
 <html lang="es">
-<head><meta charset="utf-8"><title>Inscripciones al taller</title>
+<head>
+<meta charset="utf-8">
+<title>Inscripciones al taller</title>
 <style>
  body{font-family:system-ui,sans-serif;background:#F4F1EC;color:#2B2A27;
       max-width:640px;margin:40px auto;padding:0 16px;line-height:1.5}
- table{border-collapse:collapse;width:100%}
+ h1{margin-bottom:4px}
+ table{border-collapse:collapse;width:100%;margin-top:16px}
  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid #CFC7BA}
  th{background:#E6E9EC}
+ form{background:#E6E9EC;padding:14px 16px;border-radius:12px;margin:16px 0}
+ input{padding:6px 8px;margin-right:8px;border:1px solid #B4BCC4;border-radius:6px}
+ button{padding:6px 14px;cursor:pointer;border:1px solid #7FA79A;
+        border-radius:6px;background:#E3EDE8}
  .vacio{background:#E9E2D7;padding:12px 16px;border-radius:12px}
-</style></head>
+ .cupos{color:#55504A}
+</style>
+</head>
 <body>
 <h1>Inscripciones al taller</h1>
+<p class="cupos">Cupos libres: <b>{{ cupos_libres }}</b></p>
+
+<form method="get" action="/resumen/">
+  <input name="nombre" placeholder="Nombre" required>
+  <input name="edad" type="number" placeholder="Edad" required>
+  <button type="submit">Inscribir</button>
+</form>
+
 {% if registros %}
 <table>
   <tr><th>Nombre</th><th>Edad</th><th>Estado</th></tr>
@@ -20,6 +37,8 @@
 </table>
 <p>Total: {{ registros|length }} registro(s).</p>
 {% else %}
-<p class="vacio">Todavia no hay registros. Ejecuta <b>python solucion.py</b> para agregar uno.</p>
+<p class="vacio">Todavia no hay registros. Usa el formulario de arriba, o
+ejecuta <b>python solucion.py</b> en la consola.</p>
 {% endif %}
-</body></html>
+</body>
+</html>

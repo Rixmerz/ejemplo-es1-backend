@@ -25,6 +25,12 @@ def decidir(edad, cupos):
         return "Aceptado"
 
 
+def cupos_libres(registros):
+    """Solo los aceptados ocupan cupo. Un rechazo no consume nada."""
+    aceptados = [r for r in registros if r["estado"] == "Aceptado"]
+    return CUPOS - len(aceptados)
+
+
 def cargar():
     if os.path.exists(ARCHIVO):
         with open(ARCHIVO, encoding="utf-8") as f:
@@ -42,8 +48,7 @@ def main():
     edad = int(input("Edad: "))
 
     registros = cargar()
-    cupos = CUPOS - len(registros)
-    estado = decidir(edad, cupos)
+    estado = decidir(edad, cupos_libres(registros))
     print(estado)
 
     registros.append({"nombre": nombre, "edad": edad, "estado": estado})

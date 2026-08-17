@@ -46,7 +46,20 @@ python solucion.py
 python manage.py runserver
 ```
 
-Abre <http://127.0.0.1:8000/resumen/>.
+Abre <http://127.0.0.1:8000/resumen/>. Desde ahí puedes inscribir con el
+formulario, sin volver a la consola.
+
+## La vista NO reescribe la regla: la importa
+
+Esto es lo que pide el Paso 2 de la Fase 3. En `core/views.py`:
+
+```python
+from solucion import ARCHIVO, CUPOS, cargar, decidir, guardar
+```
+
+La regla de decisión vive en un solo lugar, `solucion.py`. Si la copiaras
+dentro de la vista tendrías la misma lógica en dos archivos, y al corregir un
+caso tendrías que acordarte de arreglarlo dos veces.
 
 ## Los 4 resultados
 
@@ -58,6 +71,10 @@ Abre <http://127.0.0.1:8000/resumen/>.
 | 4 | resto | Aceptado |
 
 El caso 1 va **primero**. Si lo dejas al final nunca se alcanza a revisar.
+
+**Un rechazo no consume cupo.** `cupos_libres()` cuenta solo los registros con
+estado `Aceptado`. Si contaras todos los registros, un menor de edad rechazado
+te dejaría sin cupos — es un error fácil de cometer y difícil de notar.
 
 ## Dónde va cada archivo
 
@@ -83,6 +100,21 @@ ejemplo-es1/
 | `solucion.py` + `requirements.txt` — `tabulate` | 1.1.3 | 6 |
 | `core/` + `miproyecto/` + `ia.md` | 1.1.4 | 12 |
 | `plan.md` | requisito, sin puntaje | — |
+
+## Las claves van en `.env`, no en el código
+
+`settings.py` lee `SECRET_KEY` y `DEBUG` con `python-decouple`:
+
+```python
+from decouple import config
+
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=False, cast=bool)
+```
+
+El `.env` está en `.gitignore` y no se sube. El `.env.example` sí se sube: es
+la plantilla que dice qué variables hacen falta. Es la seguridad mínima de
+cualquier proyecto Django.
 
 ## Sobre los paquetes externos
 
