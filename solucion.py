@@ -14,15 +14,20 @@ CUPOS = 3
 
 
 def decidir(edad, cupos):
-    """Devuelve uno de los 4 resultados posibles. El dato invalido va primero."""
+    """Devuelve uno de los 4 resultados posibles.
+
+    El dato invalido va primero: si se deja al final nunca se alcanza.
+    La aceptacion combina las dos condiciones con 'and', porque para entrar
+    hacen falta las dos cosas a la vez: tener la edad Y que quede cupo.
+    """
     if cupos < 0:
         return "Error: cantidad de cupos invalida"
+    elif edad >= 16 and cupos > 0:
+        return "Aceptado"
     elif edad < 16:
         return "Rechazado: es menor de 16 anios"
-    elif cupos == 0:
-        return "Rechazado: no quedan cupos"
     else:
-        return "Aceptado"
+        return "Rechazado: no quedan cupos"
 
 
 def cupos_libres(registros):
